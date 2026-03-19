@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PhantomGuard 2.0 | Alerts &amp; Incidents</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed-variant": "#00530e",
+              "surface": "#121318",
+              "on-surface": "#e3e1e9",
+              "on-tertiary-container": "#b50027",
+              "tertiary-container": "#ffc1c0",
+              "surface-container": "#1e1f25",
+              "outline": "#849396",
+              "primary-fixed": "#9cf0ff",
+              "background": "#121318",
+              "on-tertiary-fixed-variant": "#92001e",
+              "secondary-container": "#13ff43",
+              "inverse-primary": "#006875",
+              "on-secondary-fixed": "#002203",
+              "error-container": "#93000a",
+              "secondary-fixed-dim": "#00e639",
+              "tertiary": "#ffe7e6",
+              "surface-tint": "#00daf3",
+              "inverse-on-surface": "#2f3036",
+              "primary": "#c3f5ff",
+              "surface-container-low": "#1a1b21",
+              "tertiary-fixed-dim": "#ffb3b2",
+              "on-error-container": "#ffdad6",
+              "on-primary-fixed-variant": "#004f58",
+              "on-secondary-container": "#007117",
+              "outline-variant": "#3b494c",
+              "on-background": "#e3e1e9",
+              "primary-container": "#00e5ff",
+              "tertiary-fixed": "#ffdad8",
+              "secondary": "#ecffe3",
+              "surface-bright": "#38393f",
+              "on-error": "#690005",
+              "secondary-fixed": "#72ff70",
+              "inverse-surface": "#e3e1e9",
+              "primary-fixed-dim": "#00daf3",
+              "on-primary-container": "#00626e",
+              "on-tertiary": "#680012",
+              "error": "#ffb4ab",
+              "surface-variant": "#34343a",
+              "on-surface-variant": "#bac9cc",
+              "on-primary-fixed": "#001f24",
+              "surface-dim": "#121318",
+              "surface-container-lowest": "#0d0e13",
+              "on-tertiary-fixed": "#410008",
+              "on-secondary": "#003907",
+              "on-primary": "#00363d",
+              "surface-container-highest": "#34343a",
+              "surface-container-high": "#292a2f"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-panel {
+            background: rgba(52, 52, 58, 0.6);
+            backdrop-filter: blur(24px);
+        }
+        .tabular-data {
+            font-variant-numeric: tabular-nums;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary/30">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-[#121318] dark:bg-[#121318]">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-[#c3f5ff] tracking-tighter font-['Space_Grotesk']">PhantomGuard 2.0</span>
+<nav class="hidden md:flex gap-6">
+<a class="text-[#c3f5ff] font-bold border-b-2 border-[#c3f5ff] font-['Space_Grotesk'] tracking-tight" href="#">System Health: Normal</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline text-sm">search</span>
+<input class="bg-surface-container border-none focus:ring-1 focus:ring-primary rounded-md pl-10 pr-4 py-1.5 text-sm w-64 placeholder:text-outline/50" placeholder="Search incidents..." type="text"/>
+</div>
+<button class="p-2 text-[#849396] hover:bg-[#34343a] transition-colors duration-200 rounded-lg relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-[#849396] hover:bg-[#34343a] transition-colors duration-200 rounded-lg">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant/30">
+<img alt="User Profile Avatar" data-alt="Cybersecurity analyst user profile photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtPId_VZROsmsBWZa9T_SyyXVEDRNEi5n1a-ZV3-KRBnPiscK1nC4OZy8_8Zx1O0NYXh92DQ9dqreYpT9MCJyukDugwMD4Dos-CEeH_TE1OIlMLmV3pRp3ZVu7PHm5zWDLpYSP1ld_8y74zJ1tgeqFnbsNvZb9pf7R5RhRnBTSPkExrDqp8O9J2RrmzvbKYxQvzHEmfqkYhf-ko-x_H06t-FVN4AkBElfUeVAuR8fFRZ6Q-c8fEEMuwLi1COpBVbwFr5PWNIxjGWg"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full flex flex-col pt-20 pb-8 px-4 bg-[#1e1f25] dark:bg-[#1e1f25] w-64 z-40">
+<div class="mb-10 px-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container/20 rounded-md flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="security">security</span>
+</div>
+<div>
+<h2 class="font-['Space_Grotesk'] text-[#c3f5ff] font-black tracking-tight leading-none text-lg">PHANTOM</h2>
+<p class="text-[10px] text-outline font-mono mt-1 opacity-70">v2.0.42_PROT</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-[#849396] hover:text-[#e3e1e9] hover:bg-[#292a2f] transition-all duration-300 font-['Inter'] text-sm font-medium uppercase tracking-widest hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#c3f5ff] bg-[#121318] border-r-4 border-[#00e5ff] font-['Inter'] text-sm font-medium uppercase tracking-widest hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+                Alerts
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#849396] hover:text-[#e3e1e9] hover:bg-[#292a2f] transition-all duration-300 font-['Inter'] text-sm font-medium uppercase tracking-widest hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                Analytics
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#849396] hover:text-[#e3e1e9] hover:bg-[#292a2f] transition-all duration-300 font-['Inter'] text-sm font-medium uppercase tracking-widest hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+                Flow Visualizer
+            </a>
+</nav>
+<div class="mt-auto px-4 space-y-4">
+<button class="w-full py-3 bg-primary-container text-on-primary-container font-bold text-xs tracking-widest uppercase rounded-md shadow-[0_0_12px_rgba(0,229,255,0.3)] hover:opacity-90 transition-all active:scale-95">
+                NEW SCAN
+            </button>
+<div class="pt-4 border-t border-outline-variant/10">
+<a class="flex items-center gap-3 px-2 py-2 text-[#849396] hover:text-[#e3e1e9] transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="help">help</span>
+                    Support
+                </a>
+<a class="flex items-center gap-3 px-2 py-2 text-[#849396] hover:text-[#e3e1e9] transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="terminal">terminal</span>
+                    Logs
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-64 pt-20 p-8 min-h-screen">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
+<div>
+<h1 class="font-headline text-4xl font-bold tracking-tight text-on-surface mb-2 uppercase">Alerts &amp; Incidents</h1>
+<p class="text-outline max-w-2xl font-body text-sm leading-relaxed">
+                    Real-time detection logs from the PhantomGuard neural engine. Monitoring process behavior and cryptographic anomalies across all endpoints.
+                </p>
+</div>
+<div class="flex gap-3">
+<div class="bg-surface-container px-4 py-2 flex items-center gap-3 rounded-lg border-l-4 border-secondary-container">
+<span class="material-symbols-outlined text-secondary-container animate-pulse" style="font-variation-settings: 'FILL' 1;">radio_button_checked</span>
+<div class="tabular-data">
+<div class="text-[10px] text-outline uppercase tracking-tighter">Live Monitor</div>
+<div class="text-sm font-bold">142.4ms Latency</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Filter Bar -->
+<div class="glass-panel p-4 mb-6 rounded-xl flex flex-wrap items-center gap-6 border-l-2 border-primary/30">
+<div class="flex items-center gap-2">
+<span class="text-[10px] font-bold text-outline uppercase tracking-widest">Severity:</span>
+<div class="flex gap-1">
+<button class="px-3 py-1 bg-error-container text-on-error-container text-[10px] font-bold rounded uppercase">Critical</button>
+<button class="px-3 py-1 bg-surface-container-highest text-outline text-[10px] font-bold rounded uppercase hover:bg-tertiary-container hover:text-on-tertiary-container transition-colors">High</button>
+<button class="px-3 py-1 bg-surface-container-highest text-outline text-[10px] font-bold rounded uppercase">Medium</button>
+</div>
+</div>
+<div class="h-6 w-px bg-outline-variant/30"></div>
+<div class="flex items-center gap-2">
+<span class="text-[10px] font-bold text-outline uppercase tracking-widest">Engine:</span>
+<select class="bg-transparent border-none text-sm focus:ring-0 text-primary p-0 font-medium">
+<option>All Detection Methods</option>
+<option>BiLSTM Neural</option>
+<option>Rule-based</option>
+<option>Honeyfile Trap</option>
+</select>
+</div>
+<div class="ml-auto flex gap-2">
+<button class="px-4 py-1.5 bg-surface-container-high hover:bg-surface-container-highest text-xs font-bold rounded flex items-center gap-2 transition-all">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                    ADVANCED FILTERS
+                </button>
+<button class="px-4 py-1.5 bg-surface-container-high hover:bg-surface-container-highest text-xs font-bold rounded flex items-center gap-2 transition-all">
+<span class="material-symbols-outlined text-sm">download</span>
+                    EXPORT CSV
+                </button>
+</div>
+</div>
+<!-- Incidents Table Container -->
+<div class="bg-surface-container overflow-hidden rounded-xl border-t border-outline-variant/10">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-6 py-4 text-[10px] font-bold text-outline uppercase tracking-widest">Timestamp</th>
+<th class="px-6 py-4 text-[10px] font-bold text-outline uppercase tracking-widest">Process</th>
+<th class="px-6 py-4 text-[10px] font-bold text-outline uppercase tracking-widest">File Path</th>
+<th class="px-6 py-4 text-[10px] font-bold text-outline uppercase tracking-widest">Method</th>
+<th class="px-6 py-4 text-[10px] font-bold text-outline uppercase tracking-widest text-center">Risk Level</th>
+<th class="px-6 py-4 text-[10px] font-bold text-outline uppercase tracking-widest text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/5">
+<!-- Critical Alert Row -->
+<tr class="hover:bg-surface-container-highest/40 transition-colors group">
+<td class="px-6 py-4 tabular-data text-xs text-outline group-hover:text-on-surface">2023-11-24 14:22:09.112</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-error shadow-[0_0_8px_#ffb4ab]"></div>
+<span class="font-mono text-xs font-semibold text-error">chrome.exe</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="text-xs font-mono text-outline truncate block max-w-xs" title="C:\Users\Admin\AppData\Local\Temp\~tmp8231.sh">...\AppData\Local\Temp\~tmp8231.sh</span>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-bold rounded uppercase tracking-tighter">BiLSTM Neural</span>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="inline-block px-3 py-1 rounded bg-error/20 text-error text-[10px] font-black uppercase">Critical</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-error/20 text-error rounded transition-colors" title="Quarantine"><span class="material-symbols-outlined text-sm">coronavirus</span></button>
+<button class="p-1.5 hover:bg-primary/20 text-primary rounded transition-colors" title="Deep Dive"><span class="material-symbols-outlined text-sm">query_stats</span></button>
+</div>
+</td>
+</tr>
+<!-- Suspicious Alert Row -->
+<tr class="hover:bg-surface-container-highest/40 transition-colors group">
+<td class="px-6 py-4 tabular-data text-xs text-outline group-hover:text-on-surface">2023-11-24 14:18:42.503</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-tertiary-container shadow-[0_0_8px_#ffc1c0]"></div>
+<span class="font-mono text-xs font-semibold text-on-surface">edge.exe</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="text-xs font-mono text-outline truncate block max-w-xs">C:\Windows\System32\drivers\net_auth.sys</span>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-0.5 bg-surface-container-high text-outline text-[10px] font-bold rounded uppercase tracking-tighter">Rule-based</span>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="inline-block px-3 py-1 rounded bg-tertiary-container/20 text-tertiary-container text-[10px] font-black uppercase">High</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-error/20 text-error rounded transition-colors" title="Quarantine"><span class="material-symbols-outlined text-sm">coronavirus</span></button>
+<button class="p-1.5 hover:bg-secondary-container/20 text-secondary-container rounded transition-colors" title="Whitelist"><span class="material-symbols-outlined text-sm">verified_user</span></button>
+<button class="p-1.5 hover:bg-primary/20 text-primary rounded transition-colors" title="Deep Dive"><span class="material-symbols-outlined text-sm">query_stats</span></button>
+</div>
+</td>
+</tr>
+<!-- Medium Alert Row -->
+<tr class="hover:bg-surface-container-highest/40 transition-colors group">
+<td class="px-6 py-4 tabular-data text-xs text-outline group-hover:text-on-surface">2023-11-24 13:55:10.001</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary/40"></div>
+<span class="font-mono text-xs font-semibold text-on-surface">svchost.exe</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="text-xs font-mono text-outline truncate block max-w-xs">C:\Windows\Temp\intel_pwr_mgt.bin</span>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-bold rounded uppercase tracking-tighter">Honeyfile Trap</span>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="inline-block px-3 py-1 rounded bg-surface-container-high text-outline text-[10px] font-black uppercase">Medium</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-secondary-container/20 text-secondary-container rounded transition-colors" title="Whitelist"><span class="material-symbols-outlined text-sm">verified_user</span></button>
+<button class="p-1.5 hover:bg-primary/20 text-primary rounded transition-colors" title="Deep Dive"><span class="material-symbols-outlined text-sm">query_stats</span></button>
+</div>
+</td>
+</tr>
+<!-- Low Alert Row -->
+<tr class="hover:bg-surface-container-highest/40 transition-colors group">
+<td class="px-6 py-4 tabular-data text-xs text-outline group-hover:text-on-surface">2023-11-24 13:42:15.882</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-outline/20"></div>
+<span class="font-mono text-xs font-semibold text-outline">powershell.exe</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="text-xs font-mono text-outline truncate block max-w-xs">User-initiated script execution</span>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-0.5 bg-surface-container-high text-outline text-[10px] font-bold rounded uppercase tracking-tighter">Rule-based</span>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="inline-block px-3 py-1 rounded bg-surface-container-high text-outline/50 text-[10px] font-black uppercase">Low</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-secondary-container/20 text-secondary-container rounded transition-colors" title="Whitelist"><span class="material-symbols-outlined text-sm">verified_user</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination/Footer -->
+<div class="px-6 py-4 bg-surface-container-low/30 border-t border-outline-variant/10 flex justify-between items-center">
+<div class="text-[10px] font-bold text-outline uppercase tracking-widest tabular-data">
+                    Showing 1-15 of 1,242 detections
+                </div>
+<div class="flex gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded bg-surface-container-high text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-on-primary text-xs font-bold">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded bg-surface-container-high text-outline hover:text-primary transition-colors text-xs font-bold">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded bg-surface-container-high text-outline hover:text-primary transition-colors text-xs font-bold">3</button>
+<button class="w-8 h-8 flex items-center justify-center rounded bg-surface-container-high text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- System Stats Grid (Asymmetric) -->
+<div class="mt-8 grid grid-cols-12 gap-6">
+<div class="col-span-12 lg:col-span-8 glass-panel p-6 rounded-xl border border-outline-variant/5">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-xs font-bold uppercase tracking-widest text-outline">Threat Distribution (24h)</h3>
+<span class="text-[10px] font-mono text-primary-container">Live Telemetry Feed</span>
+</div>
+<div class="h-32 flex items-end gap-2 px-2">
+<!-- Fake Bar Chart -->
+<div class="flex-1 bg-surface-container-highest rounded-t h-[40%]"></div>
+<div class="flex-1 bg-surface-container-highest rounded-t h-[60%]"></div>
+<div class="flex-1 bg-surface-container-highest rounded-t h-[45%]"></div>
+<div class="flex-1 bg-error/40 rounded-t h-[90%] relative group">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-error opacity-0 group-hover:opacity-100 transition-opacity">Spike</div>
+</div>
+<div class="flex-1 bg-surface-container-highest rounded-t h-[70%]"></div>
+<div class="flex-1 bg-surface-container-highest rounded-t h-[55%]"></div>
+<div class="flex-1 bg-surface-container-highest rounded-t h-[30%]"></div>
+<div class="flex-1 bg-surface-container-highest rounded-t h-[50%]"></div>
+<div class="flex-1 bg-primary/40 rounded-t h-[80%]"></div>
+<div class="flex-1 bg-surface-container-highest rounded-t h-[40%]"></div>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-4 bg-error-container/10 p-6 rounded-xl border border-error/20 flex flex-col justify-center">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">security_update_warning</span>
+<h3 class="text-xs font-bold uppercase tracking-widest text-error">Unresolved Criticals</h3>
+</div>
+<div class="text-5xl font-headline font-black text-on-surface mb-2">08</div>
+<p class="text-xs text-outline leading-tight">Requires immediate analyst intervention to prevent lateral movement.</p>
+<button class="mt-6 w-full py-2 bg-error text-on-error font-bold text-[10px] tracking-widest uppercase rounded hover:opacity-90 transition-all">VIEW QUEUE</button>
+</div>
+</div>
+</main>
+<!-- FAB (Suppressed on Details/Settings, but active here for quick action) -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-on-primary rounded-full shadow-[0_0_24px_rgba(0,218,243,0.4)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50 group">
+<span class="material-symbols-outlined" data-icon="add" style="font-variation-settings: 'wght' 400;">add</span>
+<span class="absolute right-full mr-4 px-3 py-1 bg-surface-container-highest text-on-surface text-[10px] font-bold rounded uppercase whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity">Manually Flag IOC</span>
+</button>
+</body></html>

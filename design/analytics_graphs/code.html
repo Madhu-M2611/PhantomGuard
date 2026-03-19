@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PhantomGuard 2.0 | Deep Data Analysis</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary-fixed-variant": "#00530e",
+                        "surface": "#121318",
+                        "on-surface": "#e3e1e9",
+                        "on-tertiary-container": "#b50027",
+                        "tertiary-container": "#ffc1c0",
+                        "surface-container": "#1e1f25",
+                        "outline": "#849396",
+                        "primary-fixed": "#9cf0ff",
+                        "background": "#121318",
+                        "on-tertiary-fixed-variant": "#92001e",
+                        "secondary-container": "#13ff43",
+                        "inverse-primary": "#006875",
+                        "on-secondary-fixed": "#002203",
+                        "error-container": "#93000a",
+                        "secondary-fixed-dim": "#00e639",
+                        "tertiary": "#ffe7e6",
+                        "surface-tint": "#00daf3",
+                        "inverse-on-surface": "#2f3036",
+                        "primary": "#c3f5ff",
+                        "surface-container-low": "#1a1b21",
+                        "tertiary-fixed-dim": "#ffb3b2",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#004f58",
+                        "on-secondary-container": "#007117",
+                        "outline-variant": "#3b494c",
+                        "on-background": "#e3e1e9",
+                        "primary-container": "#00e5ff",
+                        "tertiary-fixed": "#ffdad8",
+                        "secondary": "#ecffe3",
+                        "surface-bright": "#38393f",
+                        "on-error": "#690005",
+                        "secondary-fixed": "#72ff70",
+                        "inverse-surface": "#e3e1e9",
+                        "primary-fixed-dim": "#00daf3",
+                        "on-primary-container": "#00626e",
+                        "on-tertiary": "#680012",
+                        "error": "#ffb4ab",
+                        "surface-variant": "#34343a",
+                        "on-surface-variant": "#bac9cc",
+                        "on-primary-fixed": "#001f24",
+                        "surface-dim": "#121318",
+                        "surface-container-lowest": "#0d0e13",
+                        "on-tertiary-fixed": "#410008",
+                        "on-secondary": "#003907",
+                        "on-primary": "#00363d",
+                        "surface-container-highest": "#34343a",
+                        "surface-container-high": "#292a2f"
+                    },
+                    fontFamily: {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #121318;
+            color: #e3e1e9;
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(52, 52, 58, 0.6);
+            backdrop-filter: blur(24px);
+        }
+        .tabular { font-variant-numeric: tabular-nums; }
+    </style>
+</head>
+<body class="dark overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-[#121318] dark:bg-[#121318]">
+<div class="flex items-center gap-8">
+<h1 class="text-xl font-bold text-[#c3f5ff] tracking-tighter font-['Space_Grotesk']">PhantomGuard 2.0</h1>
+<nav class="hidden md:flex gap-6">
+<span class="text-[#c3f5ff] font-bold border-b-2 border-[#c3f5ff] font-['Space_Grotesk'] tracking-tight py-1">System Health: Normal</span>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-[#849396] hover:bg-[#34343a] transition-colors duration-200 rounded-md">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-[#849396] hover:bg-[#34343a] transition-colors duration-200 rounded-md">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant/20 overflow-hidden">
+<img alt="User Profile Avatar" data-alt="Cybersecurity analyst profile photo headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhTf9ayVfgYbyZLIMOziNbClyMbyQzIrH4A2ydhY1Ucb_w8XjtTeqpMmU65j9bHiseHJQF7wnaL2IBezUxQedQaPmJcTtNIUwhElYkPaQZiyVBPlpo3WAFP3kUlPhBlLy3pcU5TQMuW-nERC66wVPoJkXkXATn28Sp3ZALzOC8o1OScG6uDG7ZXLqo_6KEQlrzV6UVFdk2gDhQC8lUbiWQOk3OWnDimjGbmr7K_iW7Qdqzodp7_FyyA7O7v2bjZI9Tf_5KSefB2_s"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-64 flex flex-col pt-20 pb-8 px-4 bg-[#1e1f25] dark:bg-[#1e1f25] z-40 hidden md:flex">
+<div class="mb-8 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-primary-container flex items-center justify-center rounded-sm">
+<span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">security</span>
+</div>
+<div>
+<div class="font-['Space_Grotesk'] text-[#c3f5ff] font-black leading-none">PHANTOM</div>
+<div class="text-[10px] text-[#849396] tracking-[0.2em] font-medium">v2.0.42_PROT</div>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-[#849396] hover:text-[#e3e1e9] hover:bg-[#292a2f] transition-all duration-300 font-['Inter'] text-sm font-medium uppercase tracking-widest hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#849396] hover:text-[#e3e1e9] hover:bg-[#292a2f] transition-all duration-300 font-['Inter'] text-sm font-medium uppercase tracking-widest hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">warning</span>
+                Alerts
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#c3f5ff] bg-[#121318] border-r-4 border-[#00e5ff] font-['Inter'] text-sm font-medium uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined">analytics</span>
+                Analytics
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#849396] hover:text-[#e3e1e9] hover:bg-[#292a2f] transition-all duration-300 font-['Inter'] text-sm font-medium uppercase tracking-widest hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">hub</span>
+                Flow Visualizer
+            </a>
+</nav>
+<button class="mx-4 mt-4 mb-8 py-3 bg-primary-container text-on-primary-container font-bold rounded-md flex items-center justify-center gap-2 text-xs tracking-widest uppercase active:opacity-80 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-sm">add</span>
+            NEW SCAN
+        </button>
+<div class="border-t border-outline-variant/10 pt-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 text-[#849396] hover:text-[#e3e1e9] hover:bg-[#292a2f] transition-all duration-300 font-['Inter'] text-xs font-medium uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined text-sm">help</span>
+                Support
+            </a>
+<a class="flex items-center gap-3 px-4 py-2 text-[#849396] hover:text-[#e3e1e9] hover:bg-[#292a2f] transition-all duration-300 font-['Inter'] text-xs font-medium uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined text-sm">terminal</span>
+                Logs
+            </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pt-20 px-6 pb-12 min-h-screen">
+<!-- Page Header -->
+<header class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="w-2 h-2 rounded-full bg-secondary-container animate-pulse"></span>
+<span class="text-secondary-container text-[10px] font-bold tracking-[0.3em] uppercase">Live Intelligence Feed</span>
+</div>
+<h2 class="text-4xl font-black font-headline text-on-surface tracking-tight mb-2">Deep Data Analysis</h2>
+<p class="text-outline text-sm max-w-xl">Comprehensive heuristic inspection of system entropy, resource allocation, and process behavioral anomalies.</p>
+</div>
+<div class="flex gap-3">
+<div class="bg-surface-container p-4 flex flex-col items-end min-w-[140px]">
+<span class="text-[10px] text-outline uppercase tracking-widest mb-1">Total Scan Points</span>
+<span class="text-2xl font-headline font-bold text-primary tabular">14,208,312</span>
+</div>
+<div class="bg-surface-container p-4 flex flex-col items-end min-w-[140px]">
+<span class="text-[10px] text-outline uppercase tracking-widest mb-1">Global Risk Score</span>
+<span class="text-2xl font-headline font-bold text-error tabular">12.4%</span>
+</div>
+</div>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Main Entropy Chart (Large) -->
+<section class="col-span-12 lg:col-span-8 bg-surface-container p-6 relative overflow-hidden">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h3 class="text-lg font-headline font-bold text-on-surface">File Entropy Levels</h3>
+<p class="text-xs text-outline">Real-time randomness calculation across system volumes</p>
+</div>
+<div class="flex items-center gap-4 text-[10px] font-bold uppercase tracking-tighter">
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-0.5 bg-primary"></span>
+<span class="text-on-surface">System Path A</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-0.5 bg-outline-variant border-t border-dashed border-error"></span>
+<span class="text-error">Threshold (7.5)</span>
+</div>
+</div>
+</div>
+<div class="h-64 w-full relative">
+<!-- Fake Chart Grid -->
+<div class="absolute inset-0 grid grid-rows-4 pointer-events-none">
+<div class="border-b border-outline-variant/10"></div>
+<div class="border-b border-outline-variant/10"></div>
+<div class="border-b border-outline-variant/30 relative">
+<!-- Threshold Line -->
+<div class="absolute bottom-0 w-full border-b border-error/50 border-dashed z-10 flex items-center">
+<span class="bg-error text-on-error text-[8px] px-1 ml-2">CRITICAL THRESHOLD</span>
+</div>
+</div>
+<div class="border-b border-outline-variant/10"></div>
+</div>
+<!-- SVG Chart Visualization -->
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 1000 100">
+<!-- Area Fill -->
+<path d="M0,80 L50,75 L100,78 L150,70 L200,85 L250,75 L300,60 L350,45 L400,20 L450,25 L500,60 L550,75 L600,70 L650,80 L700,85 L750,70 L800,75 L850,78 L900,80 L950,82 L1000,80 L1000,100 L0,100 Z" fill="url(#entropyGradient)" opacity="0.1"></path>
+<!-- Line -->
+<path d="M0,80 L50,75 L100,78 L150,70 L200,85 L250,75 L300,60 L350,45 L400,20 L450,25 L500,60 L550,75 L600,70 L650,80 L700,85 L750,70 L800,75 L850,78 L900,80 L950,82 L1000,80" fill="none" stroke="#c3f5ff" stroke-width="2"></path>
+<!-- Anomaly Marker -->
+<g transform="translate(400, 20)">
+<circle class="animate-pulse" fill="#ffb4ab" r="6"></circle>
+<circle fill="#121318" r="3"></circle>
+<text fill="#ffb4ab" font-family="Space Grotesk" font-size="12" font-weight="bold" x="10" y="-10">ANOMALY DETECTED [E: 8.42]</text>
+</g>
+<defs>
+<lineargradient id="entropyGradient" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#c3f5ff;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:#121318;stop-opacity:0"></stop>
+</lineargradient>
+</defs>
+</svg>
+</div>
+<div class="mt-4 flex justify-between text-[10px] text-outline font-mono uppercase tracking-widest">
+<span>14:00:00</span>
+<span>14:15:00</span>
+<span>14:30:00</span>
+<span>14:45:00</span>
+<span>15:00:00</span>
+</div>
+</section>
+<!-- Top Malicious Processes (Right side) -->
+<section class="col-span-12 lg:col-span-4 bg-surface-container p-6">
+<h3 class="text-lg font-headline font-bold text-on-surface mb-6">Top Malicious Processes</h3>
+<div class="space-y-6">
+<div class="relative">
+<div class="flex justify-between items-end mb-2">
+<span class="text-xs font-bold text-on-surface font-mono">svchost.exe (PID: 4092)</span>
+<span class="text-xs text-error font-bold tabular">98.2% RISK</span>
+</div>
+<div class="h-2 w-full bg-surface-container-highest">
+<div class="h-full bg-error" style="width: 98%;"></div>
+</div>
+</div>
+<div class="relative">
+<div class="flex justify-between items-end mb-2">
+<span class="text-xs font-bold text-on-surface font-mono">kernel_task (PID: 102)</span>
+<span class="text-xs text-tertiary-container font-bold tabular">42.1% RISK</span>
+</div>
+<div class="h-2 w-full bg-surface-container-highest">
+<div class="h-full bg-primary" style="width: 42%;"></div>
+</div>
+</div>
+<div class="relative">
+<div class="flex justify-between items-end mb-2">
+<span class="text-xs font-bold text-on-surface font-mono">chrome_helper (PID: 8821)</span>
+<span class="text-xs text-outline font-bold tabular">12.5% RISK</span>
+</div>
+<div class="h-2 w-full bg-surface-container-highest">
+<div class="h-full bg-outline" style="width: 12%;"></div>
+</div>
+</div>
+<div class="relative">
+<div class="flex justify-between items-end mb-2">
+<span class="text-xs font-bold text-on-surface font-mono">sys_daemon (PID: 1)</span>
+<span class="text-xs text-secondary-container font-bold tabular">0.2% RISK</span>
+</div>
+<div class="h-2 w-full bg-surface-container-highest">
+<div class="h-full bg-secondary-container" style="width: 1%;"></div>
+</div>
+</div>
+</div>
+<div class="mt-12 p-4 bg-surface-container-high border-l-4 border-error/40">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-error text-sm">gavel</span>
+<span class="text-[10px] font-bold text-error uppercase tracking-widest">Enforcement Action Required</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">System identified persistent obfuscation in 'svchost.exe'. Quarantine protocol suggested.</p>
+</div>
+</section>
+<!-- Multi-line Resource Chart -->
+<section class="col-span-12 lg:col-span-8 bg-surface-container p-6 relative">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h3 class="text-lg font-headline font-bold text-on-surface">Resource Correlation</h3>
+<p class="text-xs text-outline">CPU Usage vs. File Modification Rate</p>
+</div>
+<div class="flex items-center gap-4 text-[10px] font-bold uppercase tracking-tighter">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="text-on-surface">CPU Load</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+<span class="text-on-surface">IO Rate</span>
+</div>
+</div>
+</div>
+<div class="h-48 w-full">
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 1000 100">
+<!-- Grid Lines -->
+<line stroke="#3b494c" stroke-opacity="0.2" x1="0" x2="1000" y1="20" y2="20"></line>
+<line stroke="#3b494c" stroke-opacity="0.2" x1="0" x2="1000" y1="50" y2="50"></line>
+<line stroke="#3b494c" stroke-opacity="0.2" x1="0" x2="1000" y1="80" y2="80"></line>
+<!-- CPU Line -->
+<polyline fill="none" points="0,50 100,45 200,60 300,55 400,20 500,15 600,40 700,45 800,50 900,48 1000,52" stroke="#00e5ff" stroke-linejoin="round" stroke-width="2"></polyline>
+<!-- IO Rate Line -->
+<polyline fill="none" points="0,80 100,78 200,82 300,75 400,30 500,25 600,65 700,78 800,80 900,75 1000,78" stroke="#13ff43" stroke-linejoin="round" stroke-width="2"></polyline>
+<!-- Divergence Highlight -->
+<rect fill="#c3f5ff" fill-opacity="0.05" height="80" width="140" x="380" y="10"></rect>
+<text fill="#c3f5ff" font-family="Inter" font-size="8" font-weight="bold" letter-spacing="0.1em" x="390" y="5">CORRELATED SURGE</text>
+</svg>
+</div>
+</section>
+<!-- Anomalies Heatmap (Small Square) -->
+<section class="col-span-12 lg:col-span-4 bg-surface-container p-6">
+<h3 class="text-lg font-headline font-bold text-on-surface mb-4">Cluster Anomaly Map</h3>
+<div class="grid grid-cols-8 gap-1">
+<!-- Generating a fake heatmap grid -->
+<div class="aspect-square bg-secondary-container/20"></div>
+<div class="aspect-square bg-secondary-container/10"></div>
+<div class="aspect-square bg-secondary-container/30"></div>
+<div class="aspect-square bg-error/40 animate-pulse"></div>
+<div class="aspect-square bg-secondary-container/10"></div>
+<div class="aspect-square bg-secondary-container/5"></div>
+<div class="aspect-square bg-secondary-container/10"></div>
+<div class="aspect-square bg-secondary-container/20"></div>
+<div class="aspect-square bg-secondary-container/10"></div>
+<div class="aspect-square bg-error/60"></div>
+<div class="aspect-square bg-error/80"></div>
+<div class="aspect-square bg-error/40"></div>
+<div class="aspect-square bg-secondary-container/10"></div>
+<div class="aspect-square bg-secondary-container/5"></div>
+<div class="aspect-square bg-secondary-container/10"></div>
+<div class="aspect-square bg-secondary-container/5"></div>
+<div class="aspect-square bg-secondary-container/5"></div>
+<div class="aspect-square bg-secondary-container/10"></div>
+<div class="aspect-square bg-secondary-container/10"></div>
+<div class="aspect-square bg-secondary-container/5"></div>
+<div class="aspect-square bg-secondary-container/20"></div>
+<div class="aspect-square bg-secondary-container/10"></div>
+<div class="aspect-square bg-secondary-container/5"></div>
+<div class="aspect-square bg-secondary-container/5"></div>
+<div class="aspect-square bg-secondary-container/5"></div>
+<div class="aspect-square bg-secondary-container/5"></div>
+<div class="aspect-square bg-secondary-container/10"></div>
+<div class="aspect-square bg-secondary-container/10"></div>
+<div class="aspect-square bg-secondary-container/5"></div>
+<div class="aspect-square bg-secondary-container/10"></div>
+<div class="aspect-square bg-secondary-container/5"></div>
+<div class="aspect-square bg-secondary-container/10"></div>
+<div class="aspect-square bg-secondary-container/10"></div>
+<div class="aspect-square bg-secondary-container/20"></div>
+<div class="aspect-square bg-secondary-container/10"></div>
+<div class="aspect-square bg-secondary-container/5"></div>
+<div class="aspect-square bg-secondary-container/10"></div>
+<div class="aspect-square bg-secondary-container/5"></div>
+<div class="aspect-square bg-secondary-container/5"></div>
+<div class="aspect-square bg-secondary-container/5"></div>
+<div class="aspect-square bg-secondary-container/5"></div>
+<div class="aspect-square bg-secondary-container/5"></div>
+<div class="aspect-square bg-secondary-container/10"></div>
+<div class="aspect-square bg-error/30"></div>
+<div class="aspect-square bg-error/20"></div>
+<div class="aspect-square bg-secondary-container/5"></div>
+<div class="aspect-square bg-secondary-container/10"></div>
+<div class="aspect-square bg-secondary-container/5"></div>
+</div>
+<div class="mt-4 flex justify-between items-center text-[10px] text-outline uppercase font-bold tracking-widest">
+<span>Low Activity</span>
+<div class="flex gap-1 h-2 w-24">
+<div class="flex-1 bg-secondary-container/10"></div>
+<div class="flex-1 bg-secondary-container/40"></div>
+<div class="flex-1 bg-error/40"></div>
+<div class="flex-1 bg-error/90"></div>
+</div>
+<span>High Risk</span>
+</div>
+</section>
+</div>
+<!-- Technical Log Feed -->
+<section class="mt-8 bg-surface-container-lowest p-6 border-t border-outline-variant/10">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-sm font-headline font-bold text-primary uppercase tracking-[0.2em]">Heuristic Engine Logs</h3>
+<button class="text-[10px] text-outline hover:text-primary transition-colors uppercase font-bold">Export .JSON</button>
+</div>
+<div class="font-mono text-[11px] space-y-2 opacity-80">
+<div class="flex gap-4">
+<span class="text-outline">[15:04:12]</span>
+<span class="text-secondary-container">INFO</span>
+<span>Scanned node 0x7FF8C200 — Entropy stabilized at 4.21.</span>
+</div>
+<div class="flex gap-4">
+<span class="text-outline">[15:04:15]</span>
+<span class="text-error">WARN</span>
+<span class="text-error">Abnormal socket activity detected on 192.168.1.104. Mapping origin...</span>
+</div>
+<div class="flex gap-4">
+<span class="text-outline">[15:04:18]</span>
+<span class="text-secondary-container">INFO</span>
+<span>Process 'phantom_service' memory footprint optimized (-14MB).</span>
+</div>
+<div class="flex gap-4">
+<span class="text-outline">[15:04:22]</span>
+<span class="text-primary">EXEC</span>
+<span>Automated quarantine initiated for PID: 4092.</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Nav for Mobile -->
+<div class="md:hidden fixed bottom-0 w-full bg-[#121318] flex justify-around py-3 z-50">
+<button class="flex flex-col items-center text-[#849396]">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] uppercase font-medium">Home</span>
+</button>
+<button class="flex flex-col items-center text-[#c3f5ff]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="text-[10px] uppercase font-bold">Data</span>
+</button>
+<button class="flex flex-col items-center text-[#849396]">
+<span class="material-symbols-outlined">warning</span>
+<span class="text-[10px] uppercase font-medium">Alerts</span>
+</button>
+<button class="flex flex-col items-center text-[#849396]">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] uppercase font-medium">Config</span>
+</button>
+</div>
+</body></html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PhantomGuard 2.0 | Flow Visualizer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&amp;family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(30, 31, 37, 0.6);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+        .flow-line {
+            background: linear-gradient(90deg, transparent, #c3f5ff, transparent);
+            background-size: 200% 100%;
+        }
+        .tabular-nums {
+            font-variant-numeric: tabular-nums;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary-fixed-variant": "#00530e",
+                        "surface": "#121318",
+                        "on-surface": "#e3e1e9",
+                        "on-tertiary-container": "#b50027",
+                        "tertiary-container": "#ffc1c0",
+                        "surface-container": "#1e1f25",
+                        "outline": "#849396",
+                        "primary-fixed": "#9cf0ff",
+                        "background": "#121318",
+                        "on-tertiary-fixed-variant": "#92001e",
+                        "secondary-container": "#13ff43",
+                        "inverse-primary": "#006875",
+                        "on-secondary-fixed": "#002203",
+                        "error-container": "#93000a",
+                        "secondary-fixed-dim": "#00e639",
+                        "tertiary": "#ffe7e6",
+                        "surface-tint": "#00daf3",
+                        "inverse-on-surface": "#2f3036",
+                        "primary": "#c3f5ff",
+                        "surface-container-low": "#1a1b21",
+                        "tertiary-fixed-dim": "#ffb3b2",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#004f58",
+                        "on-secondary-container": "#007117",
+                        "outline-variant": "#3b494c",
+                        "on-background": "#e3e1e9",
+                        "primary-container": "#00e5ff",
+                        "tertiary-fixed": "#ffdad8",
+                        "secondary": "#ecffe3",
+                        "surface-bright": "#38393f",
+                        "on-error": "#690005",
+                        "secondary-fixed": "#72ff70",
+                        "inverse-surface": "#e3e1e9",
+                        "primary-fixed-dim": "#00daf3",
+                        "on-primary-container": "#00626e",
+                        "on-tertiary": "#680012",
+                        "error": "#ffb4ab",
+                        "surface-variant": "#34343a",
+                        "on-surface-variant": "#bac9cc",
+                        "on-primary-fixed": "#001f24",
+                        "surface-dim": "#121318",
+                        "surface-container-lowest": "#0d0e13",
+                        "on-tertiary-fixed": "#410008",
+                        "on-secondary": "#003907",
+                        "on-primary": "#00363d",
+                        "surface-container-highest": "#34343a",
+                        "surface-container-high": "#292a2f"
+                    },
+                    fontFamily: {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary/30">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-[#121318] dark:bg-[#121318] transition-all">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-[#c3f5ff] tracking-tighter font-['Space_Grotesk']">PhantomGuard 2.0</span>
+<div class="hidden md:flex items-center gap-2 px-3 py-1 bg-[#1e1f25] rounded-full border border-outline-variant/20">
+<span class="w-2 h-2 rounded-full bg-secondary-container shadow-[0_0_8px_#13ff43]"></span>
+<span class="text-xs font-medium text-[#c3f5ff] uppercase tracking-wider">System Health: Normal</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-[#849396] hover:bg-[#34343a] transition-colors duration-200 rounded-lg">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-[#849396] hover:bg-[#34343a] transition-colors duration-200 rounded-lg">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="Cyberpunk themed user profile avatar circle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBe5Ds8hUhSTy6KP-E_fl-jQJsAmuN0XN7UHXPEqrpM3Q33ELVBQEtLFnWIcneV_vxFOaVQGvnCJ0HxfCzMQtjautwmDKdNU3xTMRfCYzzHWozeRNdggwuk4SZMI20ztzM7Fe_iBs7tKci-cwcqdioPZzae_b0FO76hr8eoau7eRw-phKunFB6eJ2gPP393uZGZqW0T72jckgswi0xavdLM4g2VQW0fb9hGOe6dsnxsFBrnDF606s3e1GT25vFc7jgqG9PgLiLCYkw"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full flex flex-col pt-20 pb-8 px-4 w-64 bg-[#1e1f25] dark:bg-[#1e1f25] z-40">
+<div class="px-4 mb-10">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary/10 rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">security</span>
+</div>
+<div>
+<h2 class="font-['Space_Grotesk'] text-[#c3f5ff] font-black leading-none">PHANTOM</h2>
+<p class="text-[10px] text-[#849396] font-medium tracking-tighter">v2.0.42_PROT</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-[#849396] hover:text-[#e3e1e9] hover:bg-[#292a2f] transition-all duration-300 font-['Inter'] text-sm font-medium uppercase tracking-widest group" href="#">
+<span class="material-symbols-outlined group-hover:translate-x-1 duration-200">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#849396] hover:text-[#e3e1e9] hover:bg-[#292a2f] transition-all duration-300 font-['Inter'] text-sm font-medium uppercase tracking-widest group" href="#">
+<span class="material-symbols-outlined group-hover:translate-x-1 duration-200">warning</span>
+<span>Alerts</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#849396] hover:text-[#e3e1e9] hover:bg-[#292a2f] transition-all duration-300 font-['Inter'] text-sm font-medium uppercase tracking-widest group" href="#">
+<span class="material-symbols-outlined group-hover:translate-x-1 duration-200">analytics</span>
+<span>Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#c3f5ff] bg-[#121318] border-r-4 border-[#00e5ff] transition-all duration-300 font-['Inter'] text-sm font-medium uppercase tracking-widest group" href="#">
+<span class="material-symbols-outlined">hub</span>
+<span>Flow Visualizer</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-outline-variant/10 space-y-1">
+<button class="w-full mb-6 py-3 bg-primary/10 border border-primary/30 text-primary font-bold tracking-widest text-xs hover:bg-primary hover:text-on-primary transition-all duration-300">
+                NEW SCAN
+            </button>
+<a class="flex items-center gap-3 px-4 py-2 text-[#849396] hover:text-[#e3e1e9] text-sm uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined text-sm">help</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-[#849396] hover:text-[#e3e1e9] text-sm uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined text-sm">terminal</span>
+<span>Logs</span>
+</a>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-64 pt-16 h-screen flex flex-col bg-surface relative overflow-hidden">
+<!-- Header Info -->
+<div class="px-8 pt-8 flex justify-between items-end mb-8 relative z-10">
+<div>
+<span class="text-primary font-medium tracking-[0.3em] text-[10px] uppercase">Telemetry Stream</span>
+<h1 class="text-4xl font-headline font-bold text-on-surface mt-2 tracking-tight">Real-Time Flow Visualizer</h1>
+</div>
+<div class="flex items-center gap-6">
+<div class="text-right">
+<p class="text-[10px] text-outline uppercase tracking-widest">Packets Per Second</p>
+<p class="text-2xl font-headline font-medium tabular-nums text-secondary-container">14,204</p>
+</div>
+<div class="text-right border-l border-outline-variant/30 pl-6">
+<p class="text-[10px] text-outline uppercase tracking-widest">Latency (ms)</p>
+<p class="text-2xl font-headline font-medium tabular-nums text-primary">0.0042</p>
+</div>
+</div>
+</div>
+<!-- The Flow Visualization -->
+<div class="flex-1 px-8 pb-8 flex flex-col">
+<div class="flex-1 glass-panel rounded-xl border border-outline-variant/10 relative overflow-hidden flex items-center justify-center">
+<!-- Background Grid Pattern -->
+<div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: radial-gradient(#c3f5ff 1px, transparent 0); background-size: 40px 40px;"></div>
+<!-- Visualizer Logic -->
+<div class="relative w-full h-full flex items-center justify-around px-12">
+<!-- Node: Browser -->
+<div class="group relative z-20 flex flex-col items-center">
+<div class="w-16 h-16 rounded bg-surface-container-high border border-outline-variant/30 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:border-primary group-hover:shadow-[0_0_20px_rgba(195,245,255,0.2)]">
+<span class="material-symbols-outlined text-3xl text-outline group-hover:text-primary">language</span>
+</div>
+<p class="mt-3 text-[10px] font-bold tracking-widest text-outline group-hover:text-primary transition-colors">BROWSER</p>
+<!-- Tooltip -->
+<div class="absolute -top-16 opacity-0 group-hover:opacity-100 transition-all pointer-events-none glass-panel p-2 border border-primary/20 rounded text-[9px] w-24 text-center">
+                            CHROME/EDGE V114.2
+                        </div>
+</div>
+<!-- Line 1 -->
+<div class="flex-1 h-[2px] bg-outline-variant/20 relative mx-4">
+<div class="absolute inset-0 flow-line opacity-50"></div>
+<div class="absolute top-1/2 left-0 w-2 h-2 -translate-y-1/2 rounded-full bg-primary blur-[2px]"></div>
+</div>
+<!-- Node: Agent -->
+<div class="group relative z-20 flex flex-col items-center">
+<div class="w-16 h-16 rounded bg-surface-container-high border border-outline-variant/30 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:border-primary group-hover:shadow-[0_0_20px_rgba(195,245,255,0.2)]">
+<span class="material-symbols-outlined text-3xl text-outline group-hover:text-primary">terminal</span>
+</div>
+<p class="mt-3 text-[10px] font-bold tracking-widest text-outline group-hover:text-primary transition-colors">AGENT</p>
+<div class="absolute -top-16 opacity-0 group-hover:opacity-100 transition-all pointer-events-none glass-panel p-2 border border-primary/20 rounded text-[9px] w-24 text-center">
+                            MONITOR.PY ACTIVE
+                        </div>
+</div>
+<!-- Line 2 -->
+<div class="flex-1 h-[2px] bg-outline-variant/20 relative mx-4">
+<div class="absolute inset-0 flow-line opacity-50"></div>
+<div class="absolute top-1/2 left-1/2 w-2 h-2 -translate-y-1/2 rounded-full bg-primary blur-[2px]"></div>
+</div>
+<!-- Node: Extraction -->
+<div class="group relative z-20 flex flex-col items-center">
+<div class="w-20 h-20 rounded bg-surface-container-high border border-outline-variant/30 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:border-primary group-hover:shadow-[0_0_20px_rgba(195,245,255,0.2)]">
+<span class="material-symbols-outlined text-4xl text-outline group-hover:text-primary">database</span>
+</div>
+<p class="mt-3 text-[10px] font-bold tracking-widest text-outline group-hover:text-primary transition-colors">EXTRACTION</p>
+<div class="absolute -top-16 opacity-0 group-hover:opacity-100 transition-all pointer-events-none glass-panel p-2 border border-primary/20 rounded text-[9px] w-24 text-center">
+                            FEATURE_ENGINEERING
+                        </div>
+</div>
+<!-- Line 3 -->
+<div class="flex-1 h-[2px] bg-outline-variant/20 relative mx-4">
+<div class="absolute inset-0 flow-line opacity-50"></div>
+<div class="absolute top-1/2 left-1/3 w-2 h-2 -translate-y-1/2 rounded-full bg-primary blur-[2px]"></div>
+</div>
+<!-- Node: ML Model -->
+<div class="group relative z-20 flex flex-col items-center">
+<div class="w-24 h-24 rounded-lg bg-primary/5 border-2 border-primary/20 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:border-primary group-hover:shadow-[0_0_30px_rgba(195,245,255,0.3)]">
+<div class="text-center">
+<span class="material-symbols-outlined text-4xl text-primary" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<p class="text-[8px] font-black text-primary mt-1">BiLSTM</p>
+</div>
+</div>
+<p class="mt-3 text-[10px] font-bold tracking-widest text-primary transition-colors">ML MODEL</p>
+<div class="absolute -top-16 opacity-0 group-hover:opacity-100 transition-all pointer-events-none glass-panel p-3 border border-primary/40 rounded text-[10px] w-32 text-center">
+                            PREDICTION ACCURACY: 99.8%
+                        </div>
+</div>
+<!-- Line 4 -->
+<div class="flex-1 h-[2px] bg-outline-variant/20 relative mx-4">
+<div class="absolute inset-0 flow-line opacity-50"></div>
+<div class="absolute top-1/2 right-0 w-2 h-2 -translate-y-1/2 rounded-full bg-primary blur-[2px]"></div>
+</div>
+<!-- Node: Alert -->
+<div class="group relative z-20 flex flex-col items-center">
+<div class="w-16 h-16 rounded bg-surface-container-high border border-outline-variant/30 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:border-error group-hover:shadow-[0_0_20px_rgba(255,180,171,0.2)]">
+<span class="material-symbols-outlined text-3xl text-outline group-hover:text-error">notification_important</span>
+</div>
+<p class="mt-3 text-[10px] font-bold tracking-widest text-outline group-hover:text-error transition-colors text-center">ALERT<br/>STATUS</p>
+<div class="absolute -top-16 opacity-0 group-hover:opacity-100 transition-all pointer-events-none glass-panel p-2 border border-error/20 rounded text-[9px] w-24 text-center">
+                            0 BREACHES TODAY
+                        </div>
+</div>
+</div>
+<!-- Central Console Panel -->
+<div class="absolute bottom-6 left-1/2 -translate-x-1/2 w-[80%] h-48 bg-surface-container-lowest/80 backdrop-blur-md rounded border border-outline-variant/10 overflow-hidden flex flex-col">
+<div class="flex items-center justify-between px-4 h-10 border-b border-outline-variant/10 bg-surface-container-low">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-primary">analytics</span>
+<span class="text-[10px] font-bold tracking-widest text-outline uppercase">Currently Processing Logs</span>
+</div>
+<div class="flex items-center gap-1">
+<div class="w-1 h-1 bg-primary rounded-full animate-pulse"></div>
+<span class="text-[9px] text-primary/60 font-medium">LIVE STREAM</span>
+</div>
+</div>
+<div class="flex-1 p-4 font-mono text-[11px] leading-relaxed overflow-y-auto space-y-1 text-on-surface-variant">
+<p><span class="text-outline">[14:22:01.003]</span> <span class="text-primary-container">FETCH</span> Agent.py initiating handshake with Browser_Proxy_V2...</p>
+<p><span class="text-outline">[14:22:01.042]</span> <span class="text-secondary-container">SUCCESS</span> Handshake verified (0.002ms). Streaming packets...</p>
+<p><span class="text-outline">[14:22:01.085]</span> <span class="text-primary">PROCESS</span> Feature extraction module received 2,401 vectors.</p>
+<p><span class="text-outline">[14:22:02.102]</span> <span class="text-primary-container">INFER</span> BiLSTM starting inference on sequence chunk #A94-22.</p>
+<p><span class="text-outline">[14:22:02.156]</span> <span class="text-secondary-container">RESULT</span> Probability 0.00001 (Safe). Passing to logic controller...</p>
+<p><span class="text-outline">[14:22:02.201]</span> <span class="text-outline">IDLE</span> Monitor awaiting next sequence window.</p>
+<p><span class="text-outline">[14:22:03.001]</span> <span class="text-primary-container">FETCH</span> Agent.py initiating handshake with Browser_Proxy_V2...</p>
+</div>
+</div>
+</div>
+<!-- Bento Stats Footer -->
+<div class="mt-8 grid grid-cols-4 gap-6">
+<div class="p-6 bg-surface-container rounded-lg border-l-2 border-primary">
+<p class="text-[10px] text-outline uppercase tracking-widest font-bold">Node Latency</p>
+<h3 class="text-2xl font-headline font-bold text-on-surface mt-1">2.4ms</h3>
+<div class="w-full h-1 bg-surface-container-high rounded-full mt-4 overflow-hidden">
+<div class="w-1/3 h-full bg-primary"></div>
+</div>
+</div>
+<div class="p-6 bg-surface-container rounded-lg">
+<p class="text-[10px] text-outline uppercase tracking-widest font-bold">Memory Load</p>
+<h3 class="text-2xl font-headline font-bold text-on-surface mt-1">1.2 GB</h3>
+<div class="w-full h-1 bg-surface-container-high rounded-full mt-4 overflow-hidden">
+<div class="w-3/4 h-full bg-primary-container"></div>
+</div>
+</div>
+<div class="p-6 bg-surface-container rounded-lg">
+<p class="text-[10px] text-outline uppercase tracking-widest font-bold">Flow Intensity</p>
+<h3 class="text-2xl font-headline font-bold text-on-surface mt-1">High</h3>
+<div class="flex gap-1 mt-4">
+<div class="h-2 w-4 bg-secondary-container"></div>
+<div class="h-2 w-4 bg-secondary-container"></div>
+<div class="h-2 w-4 bg-secondary-container"></div>
+<div class="h-2 w-4 bg-secondary-container"></div>
+<div class="h-2 w-4 bg-surface-container-high"></div>
+</div>
+</div>
+<div class="p-6 bg-surface-container rounded-lg border-l-2 border-secondary-container">
+<p class="text-[10px] text-outline uppercase tracking-widest font-bold">Global Uptime</p>
+<h3 class="text-2xl font-headline font-bold text-on-surface mt-1">99.99%</h3>
+<p class="text-[10px] text-secondary-container font-medium mt-4 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">trending_up</span> SYSTEM OPTIMIZED
+                    </p>
+</div>
+</div>
+</div>
+</main>
+<!-- Background Cinematic Glows -->
+<div class="fixed top-0 right-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full pointer-events-none -z-10 translate-x-1/2 -translate-y-1/2"></div>
+<div class="fixed bottom-0 left-0 w-[400px] h-[400px] bg-secondary-container/5 blur-[100px] rounded-full pointer-events-none -z-10 -translate-x-1/4 translate-y-1/4"></div>
+</body></html>
